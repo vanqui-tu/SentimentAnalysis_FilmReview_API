@@ -1,4 +1,3 @@
 fastapi[all]
 numpy
 torch
-scikit-learn
