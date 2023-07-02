@@ -1,10 +1,13 @@
 from typing import Optional
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 from pydantic import BaseModel # import class BaseModel của thư viện pydantic
 import modelLSTM
 import pickle
 import numpy as np
 import torch
+
+class Item(BaseModel): # kế thừa từ class Basemodel và khai báo các biến
+    review: str
 
 with open('vocab.pkl', 'rb') as file:
     vocab = pickle.load(file)
@@ -35,9 +38,9 @@ async def root():
 def read_item(item_id: int, q: Optional[str] = None):
     return {"item_id": item_id, "q": q}
 
-@app.post("/items/")
-async def create_item(item: str): # khai báo dưới dạng parameter
-    item = [item.split()]   
+@app.post("/")
+async def create_item(body: Item): # khai báo dưới dạng parameter
+    item = [body.review.split()] 
     print(item)
     input = tokenize(item, vocab) #trả về np.array chứa list
     input_pad = padding_(input, 500)
