@@ -47,4 +47,4 @@ async def create_item(body: Item): # khai báo dưới dạng parameter
     input_pad_torch = torch.from_numpy(input_pad).to(modelLSTM.device)
     print(input_pad_torch.shape)
     output, _ = modelLSTM.model(input_pad_torch, h)    
-    return 'Positive' if torch.round(output.squeeze()) == 1 else 'Negative'
+    return {"status" : 'Positive' if torch.round(output.squeeze()) == 1 else 'Negative'}
